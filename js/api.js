@@ -1,8 +1,9 @@
-// ==========================================
-// TATA-DATA API
-// ==========================================
+// ======================================
+// TATA-DATA LMS
+// API
+// ======================================
 
-const API_URL = "https://script.google.com/macros/s/AKfycbxaHZVffrICrFirgJPz4E6fL7eO9W7-ImJp1vhSA7akhe_5T9KzcLN0qNEegNNARezG/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbxr-u331aOQBVEHrzf6YWDrD6FnNiIHbBr3KZKMVtO1LWwcwgFoal-LZKn2Cev0QbLe/exec";
 
 // Generic POST
 async function post(action, data = {}) {
@@ -14,22 +15,25 @@ async function post(action, data = {}) {
             method: "POST",
 
             headers: {
-                "Content-Type": "text/plain;charset=utf-8"
+                "Content-Type": "application/json"
             },
 
             body: JSON.stringify({
 
                 action,
-
                 ...data
 
             })
 
         });
 
-        return await response.json();
+        const result = await response.json();
 
-    } catch (err) {
+        return result;
+
+    } catch (error) {
+
+        console.error(error);
 
         return {
 
@@ -44,7 +48,7 @@ async function post(action, data = {}) {
 }
 
 // Register
-async function register(data){
+async function register(data) {
 
     return await post("register", data);
 
