@@ -8,39 +8,30 @@ const API_URL = "https://script.google.com/macros/s/AKfycbxr-u331aOQBVEHrzf6YWDr
 // Generic POST
 async function post(action, data = {}) {
 
+    const formData = new URLSearchParams();
+
+    formData.append("action", action);
+
+    Object.keys(data).forEach(key => {
+        formData.append(key, data[key]);
+    });
+
     try {
 
         const response = await fetch(API_URL, {
-
             method: "POST",
-
-            headers: {
-                "Content-Type": "application/json"
-            },
-
-            body: JSON.stringify({
-
-                action,
-                ...data
-
-            })
-
+            body: formData
         });
 
-        const result = await response.json();
-
-        return result;
+        return await response.json();
 
     } catch (error) {
 
         console.error(error);
 
         return {
-
             success: false,
-
             message: "Tidak dapat terhubung ke server."
-
         };
 
     }
