@@ -1,10 +1,12 @@
-// ==========================================
+// ======================================
 // REGISTER
-// ==========================================
+// ======================================
 
 const form = document.getElementById("registerForm");
 
-form.addEventListener("submit", async function(e){
+form.addEventListener("submit", registerAccount);
+
+async function registerAccount(e){
 
     e.preventDefault();
 
@@ -12,25 +14,51 @@ form.addEventListener("submit", async function(e){
 
     const email = document.getElementById("email").value.trim();
 
-    const whatsapp = document.getElementById("wa").value.trim();
+    const whatsapp = document.getElementById("whatsapp").value.trim();
 
     const password = document.getElementById("password").value;
 
     const confirm = document.getElementById("confirmPassword").value;
 
-    if(password !== confirm){
+    // ==========================
+    // Validasi Frontend
+    // ==========================
 
-        alert("Password tidak sama!");
+    if(
+        !nama ||
+        !email ||
+        !whatsapp ||
+        !password ||
+        !confirm
+    ){
+
+        alert("Semua field wajib diisi.");
 
         return;
 
     }
 
-    const button = document.querySelector(".login-btn");
+    if(password !== confirm){
+
+        alert("Konfirmasi password tidak sama.");
+
+        return;
+
+    }
+
+    // ==========================
+    // Disable Button
+    // ==========================
+
+    const button = document.querySelector("#registerForm button");
 
     button.disabled = true;
 
     button.innerHTML = "Mendaftarkan...";
+
+    // ==========================
+    // Kirim ke API
+    // ==========================
 
     const result = await register({
 
@@ -44,16 +72,30 @@ form.addEventListener("submit", async function(e){
 
     });
 
-    alert(result.message);
+    // ==========================
+    // Enable Button
+    // ==========================
 
     button.disabled = false;
 
-    button.innerHTML = "DAFTAR";
+    button.innerHTML = "Daftar";
+
+    // ==========================
+    // Response
+    // ==========================
 
     if(result.success){
 
-        window.location.href = "login.html";
+        alert(result.message);
+
+        form.reset();
+
+        window.location.href="login.html";
+
+    }else{
+
+        alert(result.message);
 
     }
 
-});
+}
