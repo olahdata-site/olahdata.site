@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | OLAH-DATA</title>
+
+    <link rel="stylesheet" href="css/auth.css">
+
+</head>
+
+<body>
+
+<div class="login-wrapper">
+
+    <!-- Bagian Kiri -->
+    <div class="login-left">
+
+        <div class="overlay"></div>
+
+        <div class="left-content">
+
+            <h1>OLAH-DATA</h1>
+
+            <p>
+                Belajar Microsoft Excel
+                dengan Animasi Interaktif.
+            </p>
+
+            <img
+            src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200"
+            alt="Excel">
+
+        </div>
+
+    </div>
+
+    <!-- Bagian Kanan -->
+    <div class="login-right">
+
+        <div class="login-box">
+
+            <h2>Selamat Datang 👋</h2>
+
+            <p>
+                Silakan login untuk melanjutkan belajar.
+            </p>
+
+            <form id="loginForm">
+
+                <div class="input-group">
+
+                    <label>Email</label>
+
+                    <input
+                    type="email"
+                    id="email"
+                    placeholder="email@gmail.com"
+                    required>
+
+                </div>
+
+                <div class="input-group">
+
+                    <label>Password</label>
+
+                    <div class="password-box">
+
+                        <input
+                        type="password"
+                        id="password"
+                        placeholder="Masukkan Password"
+                        required>
+
+                        <button
+                        type="button"
+                        id="togglePassword">
+
+                        👁
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div class="login-option">
+
+                    <label>
+
+                        <input
+                        type="checkbox">
+
+                        Ingat Saya
+
+                    </label>
+
+                    <a href="#">
+
+                        Lupa Password?
+
+                    </a>
+
+                </div>
+
+                <button
+                class="login-btn"
+                type="submit">
+
+                    LOGIN
+
+                </button>
+
+            </form>
+
+            <div class="register-link">
+
+                Belum punya akun?
+
+                <a href="register.html">
+
+                    Daftar Sekarang
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="js/auth.js"></script>
+<script src="js/api.js"></script>
+<script src="js/login.js"></script>
+</body>
+
+</html>
