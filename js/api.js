@@ -3,7 +3,7 @@
 // API
 // ======================================
 
-const API_URL = "https://script.google.com/macros/s/AKfycbz2hedPSBvIktgtlpkmYKGtDHTqlg30F8OLZ79NH9TP_VOoBiR9WWLCypxNyra7TnwL/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycby97KPJDtGHoHl65tPXUmIjYHr_XmlOaHMMzFo5KANiBShUd0e5Q9IUaCMI3UUFzUCz/exec";
 
 // Generic POST
 async function post(action, data = {}) {
