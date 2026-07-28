@@ -56,3 +56,10 @@ async function login(data){
     return await post("login", data);
 
 }
+
+// Redeem License
+async function redeem(data){
+
+    return await post("redeem", data);
+
+}
