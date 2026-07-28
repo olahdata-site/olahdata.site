@@ -1,5 +1,5 @@
 // ======================================
-// TATA-DATA LMS
+// OLAH-DATA LMS
 // API
 // ======================================
 
@@ -19,11 +19,16 @@ async function post(action, data = {}) {
     try {
 
         const response = await fetch(API_URL, {
-            method: "POST",
-            body: formData
-        });
+    method: "POST",
+    body: formData
+});
 
-        return await response.json();
+const text = await response.text();
+
+console.log("Status :", response.status);
+console.log("Response :", text);
+
+return JSON.parse(text);
 
     } catch (error) {
 
