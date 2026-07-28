@@ -14,7 +14,7 @@ async function registerAccount(e){
 
     const email = document.getElementById("email").value.trim();
 
-    const whatsapp = document.getElementById("whatsapp").value.trim();
+    const whatsapp = document.getElementById("wa").value.trim();
 
     const password = document.getElementById("password").value;
 
