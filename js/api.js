@@ -63,3 +63,18 @@ async function redeem(data){
     return await post("redeem", data);
 
 }
+
+// ======================================
+// GET MY COURSES
+// ======================================
+
+async function getMyCourses(userId){
+
+    return await post("myCourses",{
+
+        userId
+
+    });
+
+}
+
