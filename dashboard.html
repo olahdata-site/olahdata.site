@@ -1,682 +1,172 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OLAH-DATA Dashboard</title>
 
-    <!-- Poppins -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Material Symbols -->
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet">
+    <title>Dashboard | OLAH-DATA</title>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    <link rel="stylesheet" href="css/dashboard.css">
 
-        :root {
-            --primary: #0F766E;
-            --primary-light: #14B8A6;
-            --background: #F5F7FB;
-            --card: #FFFFFF;
-            --border: #E5E7EB;
-            --text: #111827;
-            --soft: #6B7280;
-            --radius: 18px;
-            --shadow: 0 15px 35px rgba(0,0,0,.06);
-            --sidebar: 250px;
-            --sidebar-small: 78px;
-        }
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: var(--background);
-            color: var(--text);
-            display: flex;
-            overflow: hidden;
-        }
-
-        .sidebar {
-            width: var(--sidebar);
-            height: 100vh;
-            background: white;
-            position: fixed;
-            left: 0;
-            top: 0;
-            box-shadow: var(--shadow);
-            transition: .28s;
-            display: flex;
-            flex-direction: column;
-            z-index: 999;
-        }
-
-        .sidebar.collapsed {
-            width: var(--sidebar-small);
-        }
-
-        .logo {
-            padding: 28px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .logo-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 14px;
-            background: linear-gradient(135deg, #14B8A6, #0F766E);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-        }
-
-        .logo-text {
-            transition: .25s;
-            white-space: nowrap;
-        }
-
-        .logo h2 {
-            color: var(--primary);
-            font-size: 20px;
-        }
-
-        .logo p {
-            color: var(--soft);
-            font-size: 13px;
-        }
-
-        .menu {
-            list-style: none;
-            padding: 20px 12px;
-            flex: 1;
-        }
-
-        .menu li {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 14px 18px;
-            margin-bottom: 10px;
-            border-radius: 14px;
-            cursor: pointer;
-            transition: .25s;
-        }
-
-        .menu li:hover {
-            background: #ECFDF5;
-            color: var(--primary);
-        }
-
-        .menu li.active {
-            background: var(--primary);
-            color: white;
-        }
-
-        .menu-text {
-            transition: .25s;
-            white-space: nowrap;
-        }
-
-        .material-symbols-rounded {
-            font-size: 26px;
-        }
-
-        .logout {
-            padding: 22px;
-            border-top: 1px solid var(--border);
-            display: flex;
-            gap: 16px;
-            cursor: pointer;
-        }
-
-        .logout:hover {
-            background: #F9FAFB;
-        }
-
-        .main {
-            margin-left: 250px;
-            width: calc(100% - 250px);
-            transition: .28s;
-            padding: 35px;
-            overflow-y: auto;
-            height: 100vh;
-        }
-
-        .main.expand {
-            margin-left: 78px;
-            width: calc(100% - 78px);
-        }
-
-        .topbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 35px;
-        }
-
-        .search {
-            width: 420px;
-            background: white;
-            border-radius: 999px;
-            padding: 13px 20px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            box-shadow: var(--shadow);
-        }
-
-        .search input {
-            border: none;
-            outline: none;
-            width: 100%;
-            font-size: 15px;
-        }
-
-        .top-right {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .notif {
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            color: var(--soft);
-        }
-
-        .avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: var(--primary);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-        }
-
-        .profile-mini {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .hero {
-            background: linear-gradient(135deg, #0F766E, #14B8A6);
-            color: white;
-            border-radius: 25px;
-            padding: 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 35px;
-        }
-
-        .hero h1 {
-            font-size: 34px;
-        }
-
-        .hero p {
-            margin: 12px 0 20px;
-        }
-        
-        .hero-progress {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            width: 100%;
-            max-width: 300px;
-        }
-
-        .hero-btn {
-            border: none;
-            padding: 15px 30px;
-            border-radius: 999px;
-            background: white;
-            color: var(--primary);
-            font-weight: 600;
-            cursor: pointer;
-            transition: .25s;
-        }
-
-        .hero-btn:hover {
-            transform: translateY(-3px);
-        }
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 22px;
-            margin-bottom: 35px;
-        }
-
-        .stat-card {
-            background: white;
-            padding: 28px;
-            border-radius: 20px;
-            box-shadow: var(--shadow);
-            transition: .25s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-6px);
-        }
-
-        .icon {
-            color: var(--primary);
-            font-size: 40px;
-            margin-bottom: 15px;
-        }
-        
-        .stat-card h5 {
-            color: var(--soft);
-            font-weight: 400;
-            margin-bottom: 5px;
-        }
-
-        .title {
-            margin-bottom: 15px;
-        }
-
-        .continue-card {
-            background: white;
-            border-radius: 20px;
-            padding: 25px;
-            margin: 20px 0 35px;
-            box-shadow: var(--shadow);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .continue-card h3 {
-            margin-bottom: 5px;
-        }
-        
-        .continue-card p {
-            color: var(--soft);
-            font-size: 14px;
-            margin-bottom: 5px;
-        }
-
-        .continue-card button {
-            border: none;
-            background: var(--primary);
-            color: white;
-            padding: 12px 25px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 500;
-        }
-
-        .progress {
-            margin-top: 12px;
-            width: 100%;
-            height: 10px;
-            border-radius: 999px;
-            background: #E5E7EB;
-            overflow: hidden;
-            flex-grow: 1;
-        }
-
-        .progress-fill {
-            width: 0%; /* Initial state for animation */
-            height: 100%;
-            background: linear-gradient(90deg, #22C55E, #0F766E);
-        }
-
-        .course-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 24px;
-        }
-
-        .course-card {
-            background: white;
-            border-radius: 22px;
-            padding: 28px;
-            box-shadow: var(--shadow);
-            transition: .25s;
-        }
-
-        .course-card:hover {
-            transform: translateY(-8px);
-        }
-
-        .course-card h3 {
-            margin-bottom: 5px;
-        }
-
-        .course-card p {
-            color: var(--soft);
-            font-size: 14px;
-        }
-
-        .course-card button {
-            margin-top: 20px;
-            border: none;
-            background: var(--primary);
-            color: white;
-            padding: 12px 20px;
-            border-radius: 10px;
-            cursor: pointer;
-            width: 100%;
-            font-weight: 500;
-        }
-
-        .big {
-            font-size: 60px;
-            color: var(--primary);
-            margin-bottom: 18px;
-        }
-
-        .locked {
-            opacity: .45;
-        }
-        
-        .locked button {
-            background: var(--soft);
-            cursor: not-allowed;
-        }
-
-        /* ===========================
-        SIDEBAR COLLAPSE
-        =========================== */
-        .sidebar.collapsed {
-            width: 78px;
-        }
-
-        .sidebar.collapsed .logo-text {
-            opacity: 0;
-            width: 0;
-            overflow: hidden;
-        }
-
-        .sidebar.collapsed .menu-text {
-            opacity: 0;
-            width: 0;
-            overflow: hidden;
-        }
-
-        .sidebar.collapsed .logout .menu-text {
-            display: none;
-        }
-
-        .sidebar.collapsed .menu li {
-            justify-content: center;
-            padding: 14px;
-        }
-
-        .sidebar.collapsed .logout {
-            justify-content: center;
-        }
-
-        .sidebar.collapsed .logo {
-            justify-content: center;
-        }
-
-        @media(max-width: 900px) {
-            .stats {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        @media(max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
-            }
-            .main {
-                margin-left: 0;
-                width: 100%;
-                padding: 20px;
-            }
-            .topbar {
-                flex-direction: column;
-                gap: 20px;
-            }
-            .search {
-                width: 100%;
-            }
-            .stats {
-                grid-template-columns: 1fr;
-            }
-            .hero {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 20px;
-            }
-            .course-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
 </head>
+
 <body>
 
-    <!-- ===========================
-    SIDEBAR
-    =========================== -->
-    <aside class="sidebar collapsed" id="sidebar">
+<div class="app">
+
+    <!-- ========================= -->
+    <!-- SIDEBAR -->
+    <!-- ========================= -->
+
+    <aside class="sidebar" id="sidebar">
+
         <div class="logo">
-            <div class="logo-icon">
-                <span class="material-symbols-rounded">school</span>
-            </div>
-            <div class="logo-text">
-                <h2>OLAH-DATA</h2>
-                <p>Learning Center</p>
-            </div>
+
+            <h2>OD</h2>
+
         </div>
 
-        <ul class="menu">
-            <li class="active" data-page="dashboard">
-                <span class="material-symbols-rounded">dashboard</span>
-                <span class="menu-text">Dashboard</span>
-            </li>
-            <li data-page="course">
-                <span class="material-symbols-rounded">menu_book</span>
-                <span class="menu-text">My Course</span>
-            </li>
-            <li data-page="redeem">
-                <span class="material-symbols-rounded">confirmation_number</span>
-                <span class="menu-text">Redeem License</span>
-            </li>
-            <li data-page="profile">
-                <span class="material-symbols-rounded">person</span>
-                <span class="menu-text">Profile</span>
-            </li>
-        </ul>
+        <nav>
 
-        <div class="logout" id="logoutBtn">
-            <span class="material-symbols-rounded">logout</span>
-            <span class="menu-text">Logout</span>
-        </div>
+            <a href="#" class="active">
+
+                <i class="fas fa-house"></i>
+
+                <span>Dashboard</span>
+
+            </a>
+
+            <a href="#">
+
+                <i class="fas fa-book-open"></i>
+
+                <span>My Courses</span>
+
+            </a>
+
+            <a href="#">
+
+                <i class="fas fa-user"></i>
+
+                <span>Profile</span>
+
+            </a>
+
+            <a href="#">
+
+                <i class="fas fa-right-from-bracket"></i>
+
+                <span>Logout</span>
+
+            </a>
+
+        </nav>
+
     </aside>
 
-    <!-- ===========================
-    MAIN
-    =========================== -->
-    <div class="main expand" id="main">
+    <!-- ========================= -->
+    <!-- CONTENT -->
+    <!-- ========================= -->
 
-        <!-- ===========================
-        TOPBAR
-        =========================== -->
-        <div class="topbar">
-            <div class="search">
-                <span class="material-symbols-rounded">search</span>
-                <input type="text" placeholder="Cari Course...">
-            </div>
-            <div class="top-right">
-                <button class="notif">
-                    <span class="material-symbols-rounded">notifications</span>
-                </button>
-                <div class="profile-mini">
-                    <div class="avatar">B</div>
-                    <div>
-                        <h4 id="welcomeName">User</h4>
-                        <small id="topRole">Basic</small>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <main class="content">
 
-        <!-- ===========================
-        WELCOME
-        =========================== -->
-        <section class="hero">
+        <!-- HEADER -->
+
+        <header class="header">
+
             <div>
-                <h1 id="welcomeText">Halo 👋</h1>
-                <p>Selamat datang kembali di OLAH-DATA Learning Platform.</p>
-                <div class="hero-progress">
-                    <div class="progress">
-                        <div class="progress-fill"></div>
-                    </div>
-                    <span id="progressText">35%</span>
-                </div>
+
+                <h1>
+
+                    Halo,
+                    <span id="userName">User</span> 👋
+
+                </h1>
+
+                <p>
+
+                    Selamat datang kembali.
+
+                </p>
+
             </div>
-            <button class="hero-btn">Continue Learning</button>
+
+        </header>
+
+        <!-- ========================= -->
+        <!-- REDEEM -->
+        <!-- ========================= -->
+
+        <section class="redeem-card">
+
+            <div>
+
+                <h2>🎁 Redeem License</h2>
+
+                <p>
+
+                    Masukkan kode license untuk membuka kelas.
+
+                </p>
+
+            </div>
+
+            <div class="redeem-form">
+
+                <input
+                type="text"
+                id="licenseCode"
+                placeholder="Contoh: EXCEL001">
+
+                <button id="redeemBtn">
+
+                    Redeem
+
+                </button>
+
+            </div>
+
         </section>
 
-        <!-- ===========================
-        STATISTIK
-        =========================== -->
-        <div class="stats">
-            <div class="stat-card">
-                <span class="material-symbols-rounded icon">person</span>
-                <h5>Role</h5>
-                <h2 id="role">Basic</h2>
-            </div>
-            <div class="stat-card">
-                <span class="material-symbols-rounded icon">verified</span>
-                <h5>Status</h5>
-                <h2 id="status">ACTIVE</h2>
-            </div>
-            <div class="stat-card">
-                <span class="material-symbols-rounded icon">workspace_premium</span>
-                <h5>License</h5>
-                <h2 id="license">Belum Redeem</h2>
-            </div>
-            <div class="stat-card">
-                <span class="material-symbols-rounded icon">trending_up</span>
-                <h5>Progress</h5>
-                <h2><span id="progressValue">35</span>%</h2>
-            </div>
-        </div>
+        <!-- ========================= -->
+        <!-- MY COURSES -->
+        <!-- ========================= -->
 
-        <!-- ===========================
-        CONTINUE LEARNING
-        =========================== -->
-        <h2 class="title">Continue Learning</h2>
-        <div class="continue-card">
-            <div style="width: 100%; max-width: 400px;">
-                <h3>Excel Basic</h3>
-                <p>3 dari 10 materi selesai</p>
-                <div class="progress">
-                    <div class="progress-fill"></div>
-                </div>
+        <section class="courses">
+
+            <div class="section-title">
+
+                <h2>
+
+                    My Courses
+
+                </h2>
+
             </div>
-            <button>Lanjut</button>
-        </div>
 
-        <!-- ===========================
-        COURSES
-        =========================== -->
-        <h2 class="title">My Courses</h2>
-        <div class="course-grid">
-            <div class="course-card">
-                <span class="material-symbols-rounded big">table_chart</span>
-                <h3>Excel Basic</h3>
-                <p>10 Materi</p>
-                <div class="progress">
-                    <div class="progress-fill"></div>
-                </div>
-                <button>Mulai Belajar</button>
+            <div
+            id="courseContainer"
+            class="course-grid">
+
+                <!-- Dibuat otomatis oleh dashboard.js -->
+
             </div>
-            <div class="course-card locked">
-                <span class="material-symbols-rounded big">lock</span>
-                <h3>Excel Intermediate</h3>
-                <p>Upgrade License</p>
-                <button disabled>Terkunci</button>
-            </div>
-            <div class="course-card locked">
-                <span class="material-symbols-rounded big">lock</span>
-                <h3>Dashboard Excel</h3>
-                <p>Upgrade License</p>
-                <button disabled>Terkunci</button>
-            </div>
-            <div class="course-card locked">
-                <span class="material-symbols-rounded big">lock</span>
-                <h3>Power Query</h3>
-                <p>Upgrade License</p>
-                <button disabled>Terkunci</button>
-            </div>
-        </div>
-    </div>
 
-    <script>
-        const sidebar = document.getElementById("sidebar");
-        const main = document.getElementById("main");
-        let pinSidebar = false;
+        </section>
 
-        //=========================
-        // AUTO COLLAPSE
-        //=========================
-        document.addEventListener("mousemove", (e) => {
-            if (window.innerWidth < 992) return;
-            if (pinSidebar) return;
+    </main>
 
-            // Jika kursor berada di 120px dari kiri layar, sidebar terbuka
-            if (e.clientX < 120) {
-                sidebar.classList.remove("collapsed");
-                main.classList.remove("expand");
-            } else {
-                sidebar.classList.add("collapsed");
-                main.classList.add("expand");
-            }
-        });
+</div>
 
-        //=========================
-        // PIN SIDEBAR
-        //=========================
-        document.addEventListener("keydown", (e) => {
-            // Tekan 'p' untuk pin/unpin sidebar
-            if (e.key === "p" || e.key === "P") {
-                pinSidebar = !pinSidebar;
-                // Opsional: tambahkan efek visual jika di-pin
-            }
-        });
+<script src="js/api.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="js/redeem.js"></script>
 
-        //=========================
-        // MENU ACTIVE
-        //=========================
-        document.querySelectorAll(".menu li").forEach(item => {
-            item.onclick = () => {
-                document.querySelector(".menu .active").classList.remove("active");
-                item.classList.add("active");
-            };
-        });
-
-        //=========================
-        // ANIMATE PROGRESS
-        //=========================
-        const bars = document.querySelectorAll(".progress-fill");
-        
-        bars.forEach(item => {
-            item.style.width = "0%";
-            setTimeout(() => {
-                item.style.transition = "width 1.2s ease-in-out";
-                item.style.width = "35%";
-            }, 300);
-        });
-    </script>
 </body>
 </html>
