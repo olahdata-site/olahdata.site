@@ -25,7 +25,7 @@ loginForm.addEventListener("submit", async function(e){
     });
 
     btn.disabled = false;
-    btn.innerHTML = "Masuk";
+    btn.innerHTML = "LOGIN";
 
     if(result.success){
 
