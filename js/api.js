@@ -78,3 +78,13 @@ async function getMyCourses(userId){
 
 }
 
+// ======================================
+// REDEEM
+// ======================================
+
+async function redeem(data){
+
+    return await post("redeem",data);
+
+}
+
