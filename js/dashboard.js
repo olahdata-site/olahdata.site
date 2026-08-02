@@ -289,6 +289,10 @@ function openCourse(courseId){
 
 function setupMobileMenu(){
 
+    console.log(
+        "SETUP MOBILE MENU BERJALAN"
+    );
+
     const menuBtn =
         document.getElementById("mobileMenuBtn");
 
@@ -298,7 +302,21 @@ function setupMobileMenu(){
     const overlay =
         document.getElementById("mobileOverlay");
 
+    console.log({
+
+        menuBtn,
+
+        sidebar,
+
+        overlay
+
+    });
+
     if(!menuBtn || !sidebar || !overlay){
+
+        console.log(
+            "ADA ELEMEN MOBILE YANG TIDAK DITEMUKAN"
+        );
 
         return;
 
