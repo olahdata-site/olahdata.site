@@ -48,6 +48,12 @@ async function initDashboard(){
     setupLogout();
 
     // ==========================
+    // Aktifkan menu mobile
+    // ==========================
+
+    setupMobileMenu();
+
+    // ==========================
     // Load course
     // ==========================
 
@@ -273,5 +279,51 @@ function openCourse(courseId){
 
     window.location.href =
         `course.html?id=${encodeURIComponent(courseId)}`;
+
+}
+
+
+// ======================================
+// MOBILE MENU
+// ======================================
+
+function setupMobileMenu(){
+
+    const menuBtn =
+        document.getElementById("mobileMenuBtn");
+
+    const sidebar =
+        document.querySelector(".sidebar");
+
+    const overlay =
+        document.getElementById("mobileOverlay");
+
+    if(!menuBtn || !sidebar || !overlay){
+
+        return;
+
+    }
+
+
+    // Buka / tutup sidebar
+
+    menuBtn.addEventListener("click", function(){
+
+        sidebar.classList.toggle("active");
+
+        overlay.classList.toggle("active");
+
+    });
+
+
+    // Tutup ketika area gelap diklik
+
+    overlay.addEventListener("click", function(){
+
+        sidebar.classList.remove("active");
+
+        overlay.classList.remove("active");
+
+    });
 
 }
