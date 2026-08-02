@@ -77,10 +77,7 @@ async function getMyCourses(userId){
 // ======================================
 
 async function redeemLicense(data){
-    console.log(
-        "DATA REDEEM:",
-        data
-    );
+
     return await post(
         "redeem",
         data
