@@ -4,15 +4,21 @@
 
 document.addEventListener("DOMContentLoaded", initDashboard);
 
+
+// ======================================
+// INIT DASHBOARD
+// ======================================
+
 async function initDashboard(){
 
     // ==========================
-    // Cek Login
+    // Ambil data user
     // ==========================
 
-    const user = JSON.parse(localStorage.getItem("user"));
+    const userData = localStorage.getItem("user");
 
-    if(!user){
+    // Jika belum login
+    if(!userData){
 
         window.location.href = "login.html";
 
@@ -20,19 +26,74 @@ async function initDashboard(){
 
     }
 
-    // ==========================
-    // Tampilkan Nama User
-    // ==========================
-
-    document.getElementById("userName").textContent = user.nama;
+    // Ubah data JSON menjadi object
+    const user = JSON.parse(userData);
 
     // ==========================
-    // Load Course
+    // Tampilkan nama user
+    // ==========================
+
+    const userName = document.getElementById("userName");
+
+    if(userName){
+
+        userName.textContent = user.nama;
+
+    }
+
+    // ==========================
+    // Aktifkan logout
+    // ==========================
+
+    setupLogout();
+
+    // ==========================
+    // Load course
     // ==========================
 
     await loadCourses(user.id);
 
 }
+
+
+// ======================================
+// LOGOUT
+// ======================================
+
+function setupLogout(){
+
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    if(!logoutBtn){
+
+        return;
+
+    }
+
+    logoutBtn.addEventListener("click", function(e){
+
+        e.preventDefault();
+
+        const confirmLogout = confirm(
+            "Yakin ingin keluar dari akun?"
+        );
+
+        if(!confirmLogout){
+
+            return;
+
+        }
+
+        // Hapus data login
+        localStorage.removeItem("user");
+
+        // Kembali ke halaman login
+        window.location.href = "login.html";
+
+    });
+
+}
+
 
 // ======================================
 // LOAD COURSES
@@ -40,46 +101,92 @@ async function initDashboard(){
 
 async function loadCourses(userId){
 
+    const container =
+        document.getElementById("courseContainer");
+
+    // Tampilkan loading
+    container.innerHTML = `
+
+        <div class="empty-course">
+
+            <h3>Memuat kelas...</h3>
+
+            <p>
+                Tunggu sebentar, kelas kamu sedang disiapkan.
+            </p>
+
+        </div>
+
+    `;
+
+    // Ambil course dari backend
     const result = await getMyCourses(userId);
 
+    // Jika request gagal
     if(!result.success){
 
-        alert(result.message);
+        container.innerHTML = `
+
+            <div class="empty-course">
+
+                <h3>Gagal memuat kelas</h3>
+
+                <p>
+                    ${result.message}
+                </p>
+
+            </div>
+
+        `;
 
         return;
 
     }
 
+    // Tampilkan course
     renderCourses(result.courses);
 
 }
 
+
 // ======================================
-// RENDER COURSE
+// RENDER COURSES
 // ======================================
 
 function renderCourses(courses){
 
-    const container = document.getElementById("courseContainer");
+    const container =
+        document.getElementById("courseContainer");
 
+    // Kosongkan container
     container.innerHTML = "";
 
     // ==========================
-    // Belum ada Course
+    // BELUM ADA COURSE
     // ==========================
 
-    if(courses.length===0){
+    if(!courses || courses.length === 0){
 
-        container.innerHTML=`
+        container.innerHTML = `
 
             <div class="empty-course">
 
-                <h2>📚 Belum Ada Kelas</h2>
+                <div class="empty-icon">
+
+                    📚
+
+                </div>
+
+                <h3>
+
+                    Belum Ada Kelas
+
+                </h3>
 
                 <p>
 
-                    Redeem license terlebih dahulu
-                    untuk membuka kelas.
+                    Masukkan kode license di atas
+                    untuk membuka kelas pertamamu.
 
                 </p>
 
@@ -92,22 +199,37 @@ function renderCourses(courses){
     }
 
     // ==========================
-    // Loop Course
+    // TAMPILKAN COURSE
     // ==========================
 
-    courses.forEach(course=>{
+    courses.forEach(function(course){
+
+        const thumbnail = course.thumbnail
+            ? course.thumbnail
+            : "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200";
+
+        const level = course.level
+            ? course.level
+            : "Basic";
+
+        const description = course.description
+            ? course.description
+            : "Mulai belajar dan tingkatkan kemampuanmu.";
 
         container.innerHTML += `
 
-            <div class="course-card">
+            <article class="course-card">
 
-                <img src="${course.thumbnail}" alt="${course.name}">
+                <img
+                    src="${thumbnail}"
+                    alt="${course.name}"
+                >
 
                 <div class="course-content">
 
                     <span class="course-level">
 
-                        ${course.level}
+                        ${level}
 
                     </span>
 
@@ -119,13 +241,14 @@ function renderCourses(courses){
 
                     <p>
 
-                        ${course.description}
+                        ${description}
 
                     </p>
 
                     <button
                         class="course-btn"
-                        onclick="openCourse('${course.courseId}')">
+                        onclick="openCourse('${course.courseId}')"
+                    >
 
                         Continue Learning →
 
@@ -133,13 +256,14 @@ function renderCourses(courses){
 
                 </div>
 
-            </div>
+            </article>
 
         `;
 
     });
 
 }
+
 
 // ======================================
 // OPEN COURSE
@@ -148,6 +272,6 @@ function renderCourses(courses){
 function openCourse(courseId){
 
     window.location.href =
-        `course.html?id=${courseId}`;
+        `course.html?id=${encodeURIComponent(courseId)}`;
 
 }
