@@ -31,7 +31,7 @@ loginForm.addEventListener("submit", async function(e){
 
         // Simpan user
         localStorage.setItem(
-            "userdata",
+            "user",
             JSON.stringify(result.user)
         );
 
