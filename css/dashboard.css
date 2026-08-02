@@ -431,3 +431,218 @@ body{
     line-height:1.7;
 
 }
+
+/* =======================================
+MOBILE MENU
+======================================= */
+
+.mobile-menu-btn{
+
+    display:none;
+
+}
+
+.mobile-overlay{
+
+    display:none;
+
+}
+
+
+/* =======================================
+MOBILE RESPONSIVE
+======================================= */
+
+@media(max-width:768px){
+
+    /* Layout utama */
+
+    .app{
+
+        display:block;
+
+    }
+
+
+    /* Tombol hamburger */
+
+    .mobile-menu-btn{
+
+        display:flex;
+
+        align-items:center;
+
+        justify-content:center;
+
+        width:46px;
+
+        height:46px;
+
+        border:none;
+
+        border-radius:12px;
+
+        background:#0f172a;
+
+        color:#ffffff;
+
+        font-size:25px;
+
+        cursor:pointer;
+
+        flex-shrink:0;
+
+    }
+
+
+    /* Sidebar mobile */
+
+    .sidebar{
+
+        position:fixed;
+
+        top:0;
+
+        left:0;
+
+        width:270px;
+
+        height:100vh;
+
+        z-index:1000;
+
+        transform:translateX(-100%);
+
+        transition:transform .35s ease;
+
+        overflow-y:auto;
+
+    }
+
+
+    /* Saat menu dibuka */
+
+    .sidebar.active{
+
+        width:270px;
+
+        transform:translateX(0);
+
+    }
+
+
+    /* Matikan efek hover desktop */
+
+    .sidebar:hover{
+
+        width:270px;
+
+    }
+
+
+    .sidebar:not(:hover){
+
+        width:270px;
+
+    }
+
+
+    /* Selalu tampilkan teks menu */
+
+    .sidebar .logo span{
+
+        display:inline;
+
+    }
+
+
+    .sidebar nav span{
+
+        display:inline;
+
+    }
+
+
+    /* Konten */
+
+    .content{
+
+        width:100%;
+
+        padding:30px 20px;
+
+    }
+
+
+    /* Header */
+
+    .header{
+
+        display:flex;
+
+        align-items:flex-start;
+
+        gap:15px;
+
+    }
+
+
+    /* Overlay */
+
+    .mobile-overlay{
+
+        display:block;
+
+        position:fixed;
+
+        inset:0;
+
+        background:rgba(15,23,42,.55);
+
+        opacity:0;
+
+        visibility:hidden;
+
+        z-index:999;
+
+        transition:.35s;
+
+    }
+
+
+    .mobile-overlay.active{
+
+        opacity:1;
+
+        visibility:visible;
+
+    }
+
+
+    /* Form redeem */
+
+    .redeem-form{
+
+        flex-direction:column;
+
+    }
+
+
+    .redeem-form button{
+
+        width:100%;
+
+        height:52px;
+
+    }
+
+
+    /* Header teks */
+
+    .header h1{
+
+        font-size:30px;
+
+    }
+
+}
