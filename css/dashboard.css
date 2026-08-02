@@ -41,17 +41,6 @@ body{
     overflow:hidden;
 }
 
-.sidebar:hover{
-
-    width:260px;
-
-}
-
-.sidebar:not(:hover){
-
-    width:85px;
-
-}
 
 .logo{
 
@@ -79,11 +68,6 @@ body{
 
 }
 
-.sidebar:not(:hover) .logo span{
-
-    display:none;
-
-}
 
 /* =======================================
    MENU
@@ -135,14 +119,34 @@ body{
 
 }
 
-/* Saat sidebar tertutup, sembunyikan tulisan */
-.sidebar:not(.active) nav span{
-    display:none;
-}
+/* =======================================
+SIDEBAR DESKTOP
+======================================= */
 
-/* Saat sidebar dibuka di HP, tampilkan tulisan */
-.sidebar.active nav span{
-    display:inline;
+@media (min-width:769px){
+
+    /* Sidebar awal dalam keadaan kecil */
+    .sidebar{
+        width:85px;
+    }
+
+    /* Sidebar melebar saat diarahkan mouse */
+    .sidebar:hover{
+        width:260px;
+    }
+
+    /* Sembunyikan nama logo dan tulisan menu */
+    .sidebar .logo span,
+    .sidebar nav span{
+        display:none;
+    }
+
+    /* Tampilkan tulisan saat sidebar di-hover */
+    .sidebar:hover .logo span,
+    .sidebar:hover nav span{
+        display:inline;
+    }
+
 }
 
 /* =======================================
