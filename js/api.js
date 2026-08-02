@@ -88,3 +88,15 @@ async function redeem(data){
 
 }
 
+// ======================================
+// REDEEM LICENSE
+// ======================================
+
+async function redeemLicense(data){
+
+    return await post(
+        "redeem",
+        data
+    );
+
+}
