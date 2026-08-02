@@ -73,6 +73,24 @@ async function getMyCourses(userId){
 }
 
 // ======================================
+// GET COURSE DETAIL
+// ======================================
+
+async function getCourseDetail(courseId){
+
+    return await post(
+        "courseDetail",
+        {
+
+            courseId:
+                courseId
+
+        }
+    );
+
+}
+
+// ======================================
 // REDEEM LICENSE
 // ======================================
 
