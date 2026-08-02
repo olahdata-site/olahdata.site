@@ -77,17 +77,13 @@ async function getMyCourses(userId){
 // ======================================
 
 async function redeemLicense(data){
-
-    return await post({
-
-        action: "redeemLicense",
-
-        userId: data.userId,
-
-        nama: data.nama,
-
-        license: data.license
-
-    });
+    console.log(
+        "DATA REDEEM:",
+        data
+    );
+    return await post(
+        "redeem",
+        data
+    );
 
 }
