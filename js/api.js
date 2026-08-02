@@ -94,9 +94,16 @@ async function redeem(data){
 
 async function redeemLicense(data){
 
-    return await post(
-        "redeem",
-        data
-    );
+    return await post({
+
+        action: "redeemLicense",
+
+        userId: data.userId,
+
+        nama: data.nama,
+
+        license: data.license
+
+    });
 
 }
