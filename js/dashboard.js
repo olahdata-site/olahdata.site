@@ -47,6 +47,10 @@ async function initDashboard(){
 
     setupLogout();
 
+    // Aktifkan redeem
+
+    setupRedeem(user);
+
     // ==========================
     // Aktifkan menu mobile
     // ==========================
@@ -100,6 +104,152 @@ function setupLogout(){
 
 }
 
+// ======================================
+// REDEEM LICENSE
+// ======================================
+
+function setupRedeem(user){
+
+    const redeemForm =
+        document.getElementById(
+            "redeemForm"
+        );
+
+    const licenseInput =
+        document.getElementById(
+            "licenseCode"
+        );
+
+    const redeemBtn =
+        document.getElementById(
+            "redeemBtn"
+        );
+
+
+    // Jika elemen tidak ditemukan
+
+    if(
+
+        !redeemForm ||
+
+        !licenseInput ||
+
+        !redeemBtn
+
+    ){
+
+        return;
+
+    }
+
+
+    // Saat tombol Redeem dikirim
+
+    redeemForm.addEventListener(
+        "submit",
+        async function(e){
+
+            e.preventDefault();
+
+
+            // Ambil kode license
+
+            const licenseCode =
+                licenseInput
+                .value
+                .trim()
+                .toUpperCase();
+
+
+            // Validasi
+
+            if(!licenseCode){
+
+                alert(
+                    "Masukkan kode license terlebih dahulu."
+                );
+
+                return;
+
+            }
+
+
+            // Simpan teks tombol
+
+            const originalText =
+                redeemBtn.innerHTML;
+
+
+            // Nonaktifkan tombol
+
+            redeemBtn.disabled =
+                true;
+
+            redeemBtn.innerHTML =
+                "Memproses...";
+
+
+            // Kirim data ke API
+
+            const result =
+                await redeemLicense({
+
+                    userId:
+                        user.id,
+
+                    nama:
+                        user.nama,
+
+                    license:
+                        licenseCode
+
+                });
+
+
+            // Aktifkan tombol kembali
+
+            redeemBtn.disabled =
+                false;
+
+            redeemBtn.innerHTML =
+                originalText;
+
+
+            // Jika redeem berhasil
+
+            if(result.success){
+
+                alert(
+                    result.message
+                );
+
+
+                // Kosongkan input
+
+                licenseInput.value =
+                    "";
+
+
+                // Muat ulang daftar kelas
+
+                await loadCourses(
+                    user.id
+                );
+
+
+            }else{
+
+                alert(
+                    result.message
+                );
+
+            }
+
+        }
+
+    );
+
+}
 
 // ======================================
 // LOAD COURSES
