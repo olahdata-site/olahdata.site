@@ -57,12 +57,6 @@ async function login(data){
 
 }
 
-// Redeem License
-async function redeem(data){
-
-    return await post("redeem", data);
-
-}
 
 // ======================================
 // GET MY COURSES
@@ -75,16 +69,6 @@ async function getMyCourses(userId){
         userId
 
     });
-
-}
-
-// ======================================
-// REDEEM
-// ======================================
-
-async function redeem(data){
-
-    return await post("redeem",data);
 
 }
 
