@@ -37,10 +37,10 @@ async function redeemLicense(){
     btn.innerHTML="Redeeming...";
 
     const result = await redeemLicense({
-    userId: user.id,
-    nama: user.nama,
-    license: licenseCode
-});
+        userId: user.id,
+        nama: user.nama,
+        license: licenseCode
+    });
 
     btn.disabled=false;
     btn.innerHTML="Redeem";
