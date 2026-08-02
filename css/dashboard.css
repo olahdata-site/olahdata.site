@@ -135,10 +135,14 @@ body{
 
 }
 
-.sidebar:not(:hover) nav span{
-
+/* Saat sidebar tertutup, sembunyikan tulisan */
+.sidebar:not(.active) nav span{
     display:none;
+}
 
+/* Saat sidebar dibuka di HP, tampilkan tulisan */
+.sidebar.active nav span{
+    display:inline;
 }
 
 /* =======================================
