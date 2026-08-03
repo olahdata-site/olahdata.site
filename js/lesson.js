@@ -161,13 +161,70 @@ if(!result.success){
 
 
 // ==========================
+// NORMALISASI DATA COURSE
+// (jaga-jaga kalau course/modules
+// datang sebagai string JSON,
+// atau modules ada di root, dsb)
+// ==========================
+
+let courseData = result.course;
+
+if(typeof courseData === "string"){
+    try{
+        courseData = JSON.parse(courseData);
+    }catch(e){
+        // biarkan apa adanya, akan ketahuan di pengecekan bawah
+    }
+}
+
+if(!courseData){
+    courseData = result; // fallback: mungkin course tidak dibungkus
+}
+
+let modulesData = courseData.modules;
+
+if(typeof modulesData === "string"){
+    try{
+        modulesData = JSON.parse(modulesData);
+    }catch(e){
+        // biarkan apa adanya
+    }
+}
+
+if(!modulesData && Array.isArray(result.modules)){
+    modulesData = result.modules; // fallback lama
+}
+
+// ==========================
+// KALAU MODULES TETAP TIDAK KETEMU
+// TAMPILKAN DEBUG INFO
+// ==========================
+
+if(!Array.isArray(modulesData)){
+
+    showLessonError(
+
+        "Struktur data course tidak sesuai. Cek console (F12) untuk detail respons API." +
+        "<br><br><small>Debug: " +
+        JSON.stringify(result).slice(0, 500) +
+        "</small>"
+
+    );
+
+    console.error("Struktur result tidak sesuai:", result);
+
+    return;
+
+}
+
+courseData.modules = modulesData;
+
+// ==========================
 // CARI MODULE
 // ==========================
-// NOTE: struktur response API => { success, course: { modules: [...] } }
-// jadi modules diakses lewat result.course.modules, BUKAN result.modules
 
 const selectedModule =
-    result.course.modules.find(
+    courseData.modules.find(
 
         function(module){
 
@@ -297,7 +354,7 @@ if(!selectedLesson){
 
 renderLessonPage(
 
-    result.course,
+    courseData,
 
     selectedModule,
 
