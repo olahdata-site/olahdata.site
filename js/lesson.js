@@ -61,7 +61,35 @@ async function initLesson(){
             "lessonId"
         );
 
+// ==========================
+// SET LINK KEMBALI KE COURSE
+// ==========================
 
+const backToCourse =
+    document.getElementById(
+        "backToCourse"
+    );
+
+
+if(
+
+    backToCourse &&
+
+    courseId
+
+){
+
+    backToCourse.href =
+
+        `course.html?id=${
+
+            encodeURIComponent(
+                courseId
+            )
+
+        }`;
+
+}
     // ==========================
     // VALIDASI PARAMETER
     // ==========================
