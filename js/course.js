@@ -371,11 +371,9 @@ function renderLessons(lessons){
 
                     class="lesson-item"
 
-                    href="${lesson.githubUrl}"
-
-                    target="_blank"
-
-                    rel="noopener"
+                    href="lesson.html?id=${encodeURIComponent(
+                    lesson.lessonId
+                    )}"
 
                 >
 
