@@ -1,0 +1,1042 @@
+/* =======================================
+RESET
+======================================= */
+
+*{
+
+    margin:0;
+
+    padding:0;
+
+    box-sizing:border-box;
+
+    font-family:"Poppins",sans-serif;
+
+}
+
+
+body{
+
+    background:#f5f7fb;
+
+    color:#1f2937;
+
+}
+
+
+/* =======================================
+LAYOUT
+======================================= */
+
+.app{
+
+    display:flex;
+
+    min-height:100vh;
+
+}
+
+
+/* =======================================
+SIDEBAR
+======================================= */
+
+.sidebar{
+
+    width:260px;
+
+    background:#0f172a;
+
+    color:#ffffff;
+
+    display:flex;
+
+    flex-direction:column;
+
+    transition:.35s;
+
+    overflow:hidden;
+
+}
+
+
+/* =======================================
+LOGO
+======================================= */
+
+.logo{
+
+    height:80px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:24px;
+
+    font-weight:700;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.08);
+
+}
+
+
+.logo span{
+
+    margin-left:12px;
+
+    white-space:nowrap;
+
+}
+
+
+/* =======================================
+SIDEBAR MENU
+======================================= */
+
+.sidebar nav{
+
+    margin-top:20px;
+
+}
+
+
+.sidebar nav a{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+    padding:16px 24px;
+
+    color:#cbd5e1;
+
+    text-decoration:none;
+
+    transition:.3s;
+
+}
+
+
+.sidebar nav a:hover{
+
+    background:#1e293b;
+
+    color:#ffffff;
+
+}
+
+
+.sidebar nav a.active{
+
+    background:#2563eb;
+
+    color:#ffffff;
+
+}
+
+
+.sidebar nav span{
+
+    white-space:nowrap;
+
+}
+
+
+/* =======================================
+SIDEBAR DESKTOP
+======================================= */
+
+@media(min-width:769px){
+
+    /* Sidebar awal kecil */
+
+    .sidebar{
+
+        width:85px;
+
+    }
+
+
+    /* Sidebar melebar saat hover */
+
+    .sidebar:hover{
+
+        width:260px;
+
+    }
+
+
+    /* Sembunyikan tulisan */
+
+    .sidebar .logo span,
+
+    .sidebar nav span{
+
+        display:none;
+
+    }
+
+
+    /* Tampilkan saat hover */
+
+    .sidebar:hover .logo span,
+
+    .sidebar:hover nav span{
+
+        display:inline;
+
+    }
+
+}
+
+
+/* =======================================
+CONTENT
+======================================= */
+
+.content{
+
+    flex:1;
+
+    min-width:0;
+
+    padding:35px 40px 60px;
+
+}
+
+
+/* =======================================
+LESSON HEADER
+======================================= */
+
+.lesson-header{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+    margin-bottom:28px;
+
+}
+
+
+/* =======================================
+BACK BUTTON
+======================================= */
+
+.back-button{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    min-height:46px;
+
+    padding:0 18px;
+
+    border-radius:12px;
+
+    background:#ffffff;
+
+    color:#334155;
+
+    text-decoration:none;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    box-shadow:
+        0 5px 15px
+        rgba(15,23,42,.06);
+
+    transition:.3s;
+
+}
+
+
+.back-button:hover{
+
+    color:#2563eb;
+
+    transform:
+        translateX(-3px);
+
+}
+
+
+/* =======================================
+LESSON CONTAINER
+======================================= */
+
+.lesson-container{
+
+    width:100%;
+
+    max-width:1000px;
+
+    margin:0 auto;
+
+}
+
+
+/* =======================================
+LOADING
+======================================= */
+
+.lesson-loading{
+
+    min-height:400px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    text-align:center;
+
+    background:#ffffff;
+
+    border:
+        2px dashed
+        #dbe2ea;
+
+    border-radius:20px;
+
+    padding:50px 25px;
+
+}
+
+
+.lesson-loading i{
+
+    font-size:40px;
+
+    color:#2563eb;
+
+    margin-bottom:20px;
+
+    animation:
+        spin 1s linear infinite;
+
+}
+
+
+.lesson-loading h2{
+
+    font-size:23px;
+
+    margin-bottom:8px;
+
+}
+
+
+.lesson-loading p{
+
+    color:#64748b;
+
+    line-height:1.7;
+
+}
+
+
+/* =======================================
+LESSON ARTICLE
+======================================= */
+
+.lesson-article{
+
+    background:#ffffff;
+
+    border-radius:20px;
+
+    padding:45px;
+
+    box-shadow:
+        0 10px 30px
+        rgba(15,23,42,.06);
+
+}
+
+
+/* =======================================
+LESSON TITLE
+======================================= */
+
+.lesson-title{
+
+    font-size:34px;
+
+    line-height:1.35;
+
+    margin-bottom:12px;
+
+}
+
+
+/* =======================================
+LESSON META
+======================================= */
+
+.lesson-meta{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    flex-wrap:wrap;
+
+    color:#64748b;
+
+    font-size:14px;
+
+    padding-bottom:25px;
+
+    margin-bottom:32px;
+
+    border-bottom:
+        1px solid
+        #e2e8f0;
+
+}
+
+
+.lesson-meta i{
+
+    color:#2563eb;
+
+}
+
+
+/* =======================================
+MARKDOWN CONTENT
+======================================= */
+
+.lesson-body{
+
+    color:#334155;
+
+    font-size:16px;
+
+    line-height:1.85;
+
+    overflow-wrap:anywhere;
+
+}
+
+
+/* =======================================
+HEADINGS
+======================================= */
+
+.lesson-body h1,
+
+.lesson-body h2,
+
+.lesson-body h3,
+
+.lesson-body h4,
+
+.lesson-body h5,
+
+.lesson-body h6{
+
+    color:#0f172a;
+
+    line-height:1.35;
+
+    margin-top:38px;
+
+    margin-bottom:16px;
+
+}
+
+
+.lesson-body h1{
+
+    font-size:31px;
+
+}
+
+
+.lesson-body h2{
+
+    font-size:26px;
+
+}
+
+
+.lesson-body h3{
+
+    font-size:22px;
+
+}
+
+
+.lesson-body h4{
+
+    font-size:19px;
+
+}
+
+
+/* =======================================
+PARAGRAPH
+======================================= */
+
+.lesson-body p{
+
+    margin-bottom:20px;
+
+}
+
+
+/* =======================================
+LINK
+======================================= */
+
+.lesson-body a{
+
+    color:#2563eb;
+
+    font-weight:600;
+
+    text-decoration:none;
+
+}
+
+
+.lesson-body a:hover{
+
+    text-decoration:underline;
+
+}
+
+
+/* =======================================
+LIST
+======================================= */
+
+.lesson-body ul,
+
+.lesson-body ol{
+
+    margin:
+        0 0 22px
+        25px;
+
+}
+
+
+.lesson-body li{
+
+    margin-bottom:8px;
+
+}
+
+
+/* =======================================
+BLOCKQUOTE
+======================================= */
+
+.lesson-body blockquote{
+
+    margin:25px 0;
+
+    padding:18px 22px;
+
+    background:#eff6ff;
+
+    border-left:
+        5px solid
+        #2563eb;
+
+    border-radius:10px;
+
+    color:#475569;
+
+}
+
+
+/* =======================================
+INLINE CODE
+======================================= */
+
+.lesson-body code{
+
+    padding:3px 7px;
+
+    border-radius:6px;
+
+    background:#f1f5f9;
+
+    color:#dc2626;
+
+    font-family:
+        Consolas,
+        Monaco,
+        monospace;
+
+    font-size:.9em;
+
+}
+
+
+/* =======================================
+CODE BLOCK
+======================================= */
+
+.lesson-body pre{
+
+    margin:25px 0;
+
+    padding:22px;
+
+    overflow-x:auto;
+
+    border-radius:14px;
+
+    background:#0f172a;
+
+}
+
+
+.lesson-body pre code{
+
+    padding:0;
+
+    background:transparent;
+
+    color:#e2e8f0;
+
+    font-size:14px;
+
+    line-height:1.7;
+
+}
+
+
+/* =======================================
+TABLE
+======================================= */
+
+.lesson-body table{
+
+    width:100%;
+
+    margin:25px 0;
+
+    border-collapse:collapse;
+
+    display:block;
+
+    overflow-x:auto;
+
+}
+
+
+.lesson-body th,
+
+.lesson-body td{
+
+    padding:13px 15px;
+
+    border:
+        1px solid
+        #dbe2ea;
+
+    text-align:left;
+
+}
+
+
+.lesson-body th{
+
+    background:#f1f5f9;
+
+    color:#0f172a;
+
+}
+
+
+/* =======================================
+IMAGE
+======================================= */
+
+.lesson-body img{
+
+    display:block;
+
+    max-width:100%;
+
+    height:auto;
+
+    margin:25px auto;
+
+    border-radius:14px;
+
+}
+
+
+/* =======================================
+HORIZONTAL LINE
+======================================= */
+
+.lesson-body hr{
+
+    border:none;
+
+    border-top:
+        1px solid
+        #e2e8f0;
+
+    margin:35px 0;
+
+}
+
+
+/* =======================================
+ERROR
+======================================= */
+
+.lesson-error{
+
+    min-height:350px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    text-align:center;
+
+    background:#ffffff;
+
+    border:
+        2px dashed
+        #fecaca;
+
+    border-radius:20px;
+
+    padding:50px 25px;
+
+}
+
+
+.lesson-error-icon{
+
+    font-size:55px;
+
+    margin-bottom:18px;
+
+}
+
+
+.lesson-error h2{
+
+    margin-bottom:10px;
+
+}
+
+
+.lesson-error p{
+
+    max-width:550px;
+
+    color:#64748b;
+
+    line-height:1.7;
+
+}
+
+
+/* =======================================
+MOBILE MENU
+======================================= */
+
+.mobile-menu-btn{
+
+    display:none;
+
+}
+
+
+.mobile-overlay{
+
+    display:none;
+
+}
+
+
+/* =======================================
+ANIMATION
+======================================= */
+
+@keyframes spin{
+
+    from{
+
+        transform:
+            rotate(0deg);
+
+    }
+
+
+    to{
+
+        transform:
+            rotate(360deg);
+
+    }
+
+}
+
+
+/* =======================================
+MOBILE
+======================================= */
+
+@media(max-width:768px){
+
+    /* Layout */
+
+    .app{
+
+        display:block;
+
+    }
+
+
+    /* Sidebar */
+
+    .sidebar{
+
+        position:fixed;
+
+        top:0;
+
+        left:0;
+
+        width:270px;
+
+        height:100vh;
+
+        z-index:1000;
+
+        transform:
+            translateX(-100%);
+
+        transition:
+            transform .35s ease;
+
+        overflow-y:auto;
+
+    }
+
+
+    /* Sidebar terbuka */
+
+    .sidebar.active{
+
+        width:270px;
+
+        transform:
+            translateX(0);
+
+    }
+
+
+    /* Tampilkan tulisan */
+
+    .sidebar .logo span,
+
+    .sidebar nav span{
+
+        display:inline;
+
+    }
+
+
+    /* Content */
+
+    .content{
+
+        width:100%;
+
+        padding:25px 15px 45px;
+
+    }
+
+
+    /* Header */
+
+    .lesson-header{
+
+        gap:12px;
+
+        margin-bottom:20px;
+
+    }
+
+
+    /* Hamburger */
+
+    .mobile-menu-btn{
+
+        width:46px;
+
+        height:46px;
+
+        display:flex;
+
+        align-items:center;
+
+        justify-content:center;
+
+        flex-shrink:0;
+
+        border:none;
+
+        border-radius:12px;
+
+        background:#0f172a;
+
+        color:#ffffff;
+
+        font-size:25px;
+
+        cursor:pointer;
+
+    }
+
+
+    /* Back button */
+
+    .back-button{
+
+        flex:1;
+
+        justify-content:center;
+
+        padding:0 12px;
+
+        font-size:14px;
+
+    }
+
+
+    /* Overlay */
+
+    .mobile-overlay{
+
+        display:block;
+
+        position:fixed;
+
+        inset:0;
+
+        z-index:999;
+
+        background:
+            rgba(15,23,42,.55);
+
+        opacity:0;
+
+        visibility:hidden;
+
+        transition:.35s;
+
+    }
+
+
+    .mobile-overlay.active{
+
+        opacity:1;
+
+        visibility:visible;
+
+    }
+
+
+    /* Article */
+
+    .lesson-article{
+
+        padding:25px 18px;
+
+        border-radius:16px;
+
+    }
+
+
+    /* Title */
+
+    .lesson-title{
+
+        font-size:27px;
+
+    }
+
+
+    /* Markdown */
+
+    .lesson-body{
+
+        font-size:15px;
+
+        line-height:1.8;
+
+    }
+
+
+    .lesson-body h1{
+
+        font-size:27px;
+
+    }
+
+
+    .lesson-body h2{
+
+        font-size:23px;
+
+    }
+
+
+    .lesson-body h3{
+
+        font-size:20px;
+
+    }
+
+
+    /* Code */
+
+    .lesson-body pre{
+
+        padding:15px;
+
+        border-radius:10px;
+
+    }
+
+}
