@@ -102,3 +102,24 @@ async function redeemLicense(data){
     );
 
 }
+
+// ======================================
+// GET LESSON DETAIL
+// ======================================
+
+async function getLessonDetail(lessonId){
+
+    return await post(
+
+        "lessonDetail",
+
+        {
+
+            lessonId:
+                lessonId
+
+        }
+
+    );
+
+}
