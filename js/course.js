@@ -222,8 +222,9 @@ function renderCourse(
 
 function renderModules(modules){
 
-
+    // ==========================
     // Belum ada module
+    // ==========================
 
     if(
 
@@ -243,7 +244,6 @@ function renderModules(modules){
 
                 </h3>
 
-
                 <p>
 
                     Materi untuk kelas ini
@@ -258,11 +258,51 @@ function renderModules(modules){
     }
 
 
-    // Tampilkan module
+    // ==========================
+    // Ambil CourseID dari URL
+    // ==========================
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+
+    const courseId =
+        params.get(
+            "id"
+        );
+
+
+    // ==========================
+    // Tampilkan semua module
+    // ==========================
 
     return modules.map(
 
         function(module,index){
+
+
+            const firstLesson =
+
+                module.lessons &&
+
+                module.lessons.length > 0
+
+                    ? module.lessons[0]
+
+                    : null;
+
+
+            // URL ketika header module diklik
+
+            const moduleUrl =
+
+                firstLesson
+
+                ? `lesson.html?courseId=${encodeURIComponent(courseId)}&moduleId=${encodeURIComponent(module.moduleId)}&lessonId=${encodeURIComponent(firstLesson.lessonId)}`
+
+                : `lesson.html?courseId=${encodeURIComponent(courseId)}&moduleId=${encodeURIComponent(module.moduleId)}`;
 
 
             return `
@@ -271,7 +311,15 @@ function renderModules(modules){
                 <article class="module-card">
 
 
-                    <div class="module-header">
+                    <!-- HEADER MODULE -->
+
+                    <a
+
+                        href="${moduleUrl}"
+
+                        class="module-header module-link"
+
+                    >
 
 
                         <div>
@@ -296,22 +344,30 @@ function renderModules(modules){
 
                         <span class="lesson-count">
 
+
                             ${module.lessons.length}
 
                             Lesson
 
+
                         </span>
 
 
-                    </div>
+                    </a>
 
+
+                    <!-- DAFTAR LESSON -->
 
                     <div class="lesson-list">
 
 
                         ${renderLessons(
 
-                            module.lessons
+                            module.lessons,
+
+                            courseId,
+
+                            module.moduleId
 
                         )}
 
@@ -335,8 +391,19 @@ function renderModules(modules){
 // RENDER LESSON
 // ======================================
 
-function renderLessons(lessons){
+function renderLessons(
 
+    lessons,
+
+    courseId,
+
+    moduleId
+
+){
+
+    // ==========================
+    // Belum ada lesson
+    // ==========================
 
     if(
 
@@ -359,9 +426,18 @@ function renderLessons(lessons){
     }
 
 
+    // ==========================
+    // Tampilkan lesson
+    // ==========================
+
     return lessons.map(
 
         function(lesson,index){
+
+
+            const lessonUrl =
+
+                `lesson.html?courseId=${encodeURIComponent(courseId)}&moduleId=${encodeURIComponent(moduleId)}&lessonId=${encodeURIComponent(lesson.lessonId)}`;
 
 
             return `
@@ -371,9 +447,7 @@ function renderLessons(lessons){
 
                     class="lesson-item"
 
-                    href="lesson.html?id=${encodeURIComponent(
-                    lesson.lessonId
-                    )}"
+                    href="${lessonUrl}"
 
                 >
 
