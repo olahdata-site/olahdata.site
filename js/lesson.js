@@ -283,7 +283,35 @@ function renderLessonPage(
 
     }
 
+// ==========================
+// SET TOMBOL KEMBALI
+// ==========================
 
+const backToCourse =
+    document.getElementById(
+        "backToCourse"
+    );
+
+
+if(
+
+    backToCourse &&
+
+    courseId
+
+){
+
+    backToCourse.href =
+
+        `course.html?id=${
+
+            encodeURIComponent(
+                courseId
+            )
+
+        }`;
+
+}
     // ==========================
     // URL KEMBALI
     // ==========================
