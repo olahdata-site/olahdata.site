@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Lesson | OLAH-DATA</title>
+
+    <!-- CSS -->
+
+    <link
+        rel="stylesheet"
+        href="css/lesson.css"
+    >
+
+    <!-- Font Awesome -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- ================================= -->
+<!-- APP -->
+<!-- ================================= -->
+
+<div class="app">
+
+
+    <!-- ================================= -->
+    <!-- SIDEBAR -->
+    <!-- ================================= -->
+
+    <aside
+        class="sidebar"
+        id="sidebar"
+    >
+
+
+        <!-- LOGO -->
+
+        <div class="logo">
+
+            <h2>
+
+                O_D
+
+            </h2>
+
+        </div>
+
+
+        <!-- MENU -->
+
+        <nav>
+
+
+            <!-- DASHBOARD -->
+
+            <a
+                href="dashboard.html"
+            >
+
+                <i
+                    class="fas fa-house"
+                ></i>
+
+                <span>
+
+                    Dashboard
+
+                </span>
+
+            </a>
+
+
+            <!-- MY COURSES -->
+
+            <a
+                href="my-courses.html"
+                class="active"
+            >
+
+                <i
+                    class="fas fa-book-open"
+                ></i>
+
+                <span>
+
+                    My Courses
+
+                </span>
+
+            </a>
+
+
+            <!-- PROFILE -->
+
+            <a
+                href="profile.html"
+            >
+
+                <i
+                    class="fas fa-user"
+                ></i>
+
+                <span>
+
+                    Profile
+
+                </span>
+
+            </a>
+
+
+            <!-- LOGOUT -->
+
+            <a
+                href="#"
+                id="logoutBtn"
+            >
+
+                <i
+                    class="fas fa-right-from-bracket"
+                ></i>
+
+                <span>
+
+                    Logout
+
+                </span>
+
+            </a>
+
+
+        </nav>
+
+
+    </aside>
+
+
+    <!-- ================================= -->
+    <!-- MOBILE OVERLAY -->
+    <!-- ================================= -->
+
+    <div
+        class="mobile-overlay"
+        id="mobileOverlay"
+    ></div>
+
+
+    <!-- ================================= -->
+    <!-- CONTENT -->
+    <!-- ================================= -->
+
+    <main class="content">
+
+
+        <!-- ================================= -->
+        <!-- TOP BAR -->
+        <!-- ================================= -->
+
+        <header class="lesson-header">
+
+
+            <!-- MOBILE MENU -->
+
+            <button
+                type="button"
+                class="mobile-menu-btn"
+                id="mobileMenuBtn"
+                aria-label="Buka menu"
+            >
+
+                ☰
+
+            </button>
+
+
+            <!-- BACK -->
+
+            <a
+                href="#"
+                id="backToCourse"
+                class="back-button"
+            >
+
+                <i
+                    class="fa-solid fa-arrow-left"
+                ></i>
+
+                Kembali ke Course
+
+            </a>
+
+
+        </header>
+
+
+        <!-- ================================= -->
+        <!-- LESSON -->
+        <!-- ================================= -->
+
+        <section
+            class="lesson-container"
+        >
+
+
+            <!-- LOADING -->
+
+            <div
+                id="lessonContent"
+                class="lesson-loading"
+            >
+
+
+                <i
+                    class="fa-solid fa-spinner"
+                ></i>
+
+
+                <h2>
+
+                    Memuat materi...
+
+                </h2>
+
+
+                <p>
+
+                    Tunggu sebentar,
+                    materi sedang disiapkan.
+
+                </p>
+
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+</div>
+
+
+<!-- ================================= -->
+<!-- MARKDOWN PARSER -->
+<!-- ================================= -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"
+></script>
+
+
+<!-- ================================= -->
+<!-- JAVASCRIPT -->
+<!-- ================================= -->
+
+<script
+    src="js/api.js"
+></script>
+
+
+<script
+    src="js/lesson.js"
+></script>
+
+
+</body>
+
+</html>
