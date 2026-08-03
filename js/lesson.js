@@ -61,35 +61,7 @@ async function initLesson(){
             "lessonId"
         );
 
-// ==========================
-// SET LINK KEMBALI KE COURSE
-// ==========================
 
-const backToCourse =
-    document.getElementById(
-        "backToCourse"
-    );
-
-
-if(
-
-    backToCourse &&
-
-    courseId
-
-){
-
-    backToCourse.href =
-
-        `course.html?id=${
-
-            encodeURIComponent(
-                courseId
-            )
-
-        }`;
-
-}
     // ==========================
     // VALIDASI PARAMETER
     // ==========================
@@ -121,6 +93,14 @@ if(
         await getCourseDetail(
             courseId
         );
+
+
+    // Untuk melihat data API di Console
+
+    console.log(
+        "Data lesson:",
+        result
+    );
 
 
     // ==========================
@@ -258,7 +238,7 @@ if(
 
     // ==========================
     // JIKA LESSON TIDAK ADA
-    // BUKA LESSON PERTAMA
+    // GUNAKAN LESSON PERTAMA
     // ==========================
 
     if(!selectedLesson){
@@ -309,6 +289,12 @@ function renderLessonPage(
 
 
     if(!container){
+
+        console.error(
+
+            "Element lessonContainer tidak ditemukan."
+
+        );
 
         return;
 
@@ -407,11 +393,7 @@ function renderLessonPage(
 
     container.innerHTML = `
 
-
-        <!-- HEADER -->
-
         <header class="lesson-topbar">
-
 
             <a
 
@@ -429,7 +411,6 @@ function renderLessonPage(
 
 
             <div class="lesson-navigation">
-
 
                 ${
 
@@ -540,14 +521,10 @@ function renderLessonPage(
 
                 }
 
-
             </div>
-
 
         </header>
 
-
-        <!-- LAYOUT -->
 
         <main class="lesson-layout">
 
@@ -558,7 +535,6 @@ function renderLessonPage(
 
 
                 <div class="lesson-heading">
-
 
                     <span class="module-label">
 
@@ -590,12 +566,10 @@ function renderLessonPage(
 
                     </p>
 
-
                 </div>
 
 
                 <div class="lesson-frame-wrapper">
-
 
                     <iframe
 
@@ -605,15 +579,13 @@ function renderLessonPage(
 
                         title="${activeLesson.title}"
 
-                        loading="lazy"
+                        loading="eager"
 
                         allowfullscreen
 
                     ></iframe>
 
-
                 </div>
-
 
             </section>
 
@@ -624,7 +596,6 @@ function renderLessonPage(
 
 
                 <div class="lesson-sidebar-header">
-
 
                     <span>
 
@@ -648,12 +619,10 @@ function renderLessonPage(
 
                     </p>
 
-
                 </div>
 
 
                 <div class="lesson-sidebar-list">
-
 
                     ${renderModuleLessons(
 
@@ -665,15 +634,11 @@ function renderLessonPage(
 
                     )}
 
-
                 </div>
-
 
             </aside>
 
-
         </main>
-
 
     `;
 
@@ -745,7 +710,6 @@ function renderModuleLessons(
 
         ){
 
-
             const isActive =
 
                 String(
@@ -761,7 +725,6 @@ function renderModuleLessons(
 
             return `
 
-
                 <a
 
                     href="${createLessonUrl(
@@ -774,9 +737,7 @@ function renderModuleLessons(
 
                     )}"
 
-                    class="module-lesson-item
-
-                    ${
+                    class="module-lesson-item ${
 
                         isActive
 
@@ -792,7 +753,6 @@ function renderModuleLessons(
 
                 >
 
-
                     <span class="module-lesson-number">
 
                         ${index + 1}
@@ -801,7 +761,6 @@ function renderModuleLessons(
 
 
                     <span class="module-lesson-info">
-
 
                         <strong>
 
@@ -824,15 +783,12 @@ function renderModuleLessons(
 
                         </small>
 
-
                     </span>
 
 
                     <i
 
-                        class="fa-solid
-
-                        ${
+                        class="fa-solid ${
 
                             isActive
 
@@ -848,9 +804,7 @@ function renderModuleLessons(
 
                     ></i>
 
-
                 </a>
-
 
             `;
 
@@ -882,9 +836,7 @@ function showLessonError(message){
 
     container.innerHTML = `
 
-
         <section class="lesson-error">
-
 
             <h2>
 
@@ -910,9 +862,7 @@ function showLessonError(message){
 
             </a>
 
-
         </section>
-
 
     `;
 
