@@ -24,8 +24,6 @@ async function initLesson(){
         );
 
 
-    // Jika belum login
-
     if(!userData){
 
         window.location.href =
@@ -37,30 +35,50 @@ async function initLesson(){
 
 
     // ==========================
-    // VALIDASI DATA USER
+    // AMBIL PARAMETER URL
     // ==========================
 
-    try{
-
-        JSON.parse(
-            userData
-        );
-
-    }catch(error){
-
-        console.error(
-            "Data user tidak valid:",
-            error
+    const params =
+        new URLSearchParams(
+            window.location.search
         );
 
 
-        localStorage.removeItem(
-            "user"
+    const courseId =
+        params.get(
+            "courseId"
         );
 
 
-        window.location.href =
-            "login.html";
+    const moduleId =
+        params.get(
+            "moduleId"
+        );
+
+
+    let lessonId =
+        params.get(
+            "lessonId"
+        );
+
+
+    // ==========================
+    // VALIDASI
+    // ==========================
+
+    if(
+
+        !courseId ||
+
+        !moduleId
+
+    ){
+
+        showLessonError(
+
+            "CourseID atau ModuleID tidak ditemukan."
+
+        );
 
         return;
 
@@ -68,475 +86,745 @@ async function initLesson(){
 
 
     // ==========================
-    // AMBIL LESSON ID DARI URL
+    // AMBIL DATA COURSE
     // ==========================
 
-    const params =
-
-        new URLSearchParams(
-
-            window.location.search
-
-        );
-
-
-    const lessonId =
-
-        params.get(
-            "id"
+    const result =
+        await getCourseDetail(
+            courseId
         );
 
 
     // ==========================
-    // VALIDASI LESSON ID
+    // REQUEST GAGAL
+    // ==========================
+
+    if(!result.success){
+
+        showLessonError(
+
+            result.message
+
+        );
+
+        return;
+
+    }
+
+
+    // ==========================
+    // CARI MODULE
+    // ==========================
+
+    const selectedModule =
+        result.modules.find(
+
+            function(module){
+
+                return (
+
+                    String(
+                        module.moduleId
+                    )
+
+                    ===
+
+                    String(
+                        moduleId
+                    )
+
+                );
+
+            }
+
+        );
+
+
+    // ==========================
+    // MODULE TIDAK DITEMUKAN
+    // ==========================
+
+    if(!selectedModule){
+
+        showLessonError(
+
+            "Module tidak ditemukan."
+
+        );
+
+        return;
+
+    }
+
+
+    // ==========================
+    // CEK LESSON
+    // ==========================
+
+    if(
+
+        !selectedModule.lessons ||
+
+        selectedModule.lessons.length === 0
+
+    ){
+
+        showLessonError(
+
+            "Module ini belum memiliki lesson."
+
+        );
+
+        return;
+
+    }
+
+
+    // ==========================
+    // JIKA LESSON BELUM DIPILIH
+    // AMBIL LESSON PERTAMA
     // ==========================
 
     if(!lessonId){
 
-        showLessonError(
+        lessonId =
 
-            "LessonID tidak ditemukan."
-
-        );
-
-        return;
+            selectedModule
+            .lessons[0]
+            .lessonId;
 
     }
 
 
     // ==========================
-    // AKTIFKAN FITUR HALAMAN
+    // CARI LESSON AKTIF
     // ==========================
 
-    setupLogout();
+    let selectedLesson =
+        selectedModule
+        .lessons
+        .find(
 
-    setupMobileMenu();
+            function(lesson){
+
+                return (
+
+                    String(
+                        lesson.lessonId
+                    )
+
+                    ===
+
+                    String(
+                        lessonId
+                    )
+
+                );
+
+            }
+
+        );
 
 
     // ==========================
-    // AMBIL DETAIL LESSON
+    // JIKA LESSON TIDAK ADA
+    // BUKA LESSON PERTAMA
     // ==========================
 
-    try{
+    if(!selectedLesson){
 
-        const result =
+        selectedLesson =
 
-            await getLessonDetail(
-
-                lessonId
-
-            );
-
-
-        console.log(
-            "Lesson Detail:",
-            result
-        );
-
-
-        // ==========================
-        // REQUEST GAGAL
-        // ==========================
-
-        if(!result){
-
-            throw new Error(
-
-                "Server tidak memberikan respons."
-
-            );
-
-        }
-
-
-        if(!result.success){
-
-            showLessonError(
-
-                result.message ||
-
-                "Gagal memuat materi."
-
-            );
-
-            return;
-
-        }
-
-
-        // ==========================
-        // VALIDASI DATA LESSON
-        // ==========================
-
-        if(
-
-            !result.lesson ||
-
-            !result.lesson.githubUrl
-
-        ){
-
-            showLessonError(
-
-                "URL materi belum tersedia."
-
-            );
-
-            return;
-
-        }
-
-
-        // ==========================
-        // TAMPILKAN LESSON
-        // ==========================
-
-        renderLesson(
-
-            result.lesson
-
-        );
-
-
-    }catch(error){
-
-        console.error(
-
-            "Error initLesson:",
-
-            error
-
-        );
-
-
-        showLessonError(
-
-            "Tidak dapat terhubung ke server."
-
-        );
+            selectedModule
+            .lessons[0];
 
     }
+
+
+    // ==========================
+    // TAMPILKAN HALAMAN
+    // ==========================
+
+    renderLessonPage(
+
+        result.course,
+
+        selectedModule,
+
+        selectedLesson
+
+    );
 
 }
 
-
 // ======================================
-// RENDER LESSON
+// RENDER LESSON PAGE
 // ======================================
 
-function renderLesson(lesson){
+function renderLessonPage(
+
+    course,
+
+    module,
+
+    activeLesson
+
+){
 
     const container =
-
         document.getElementById(
-
-            "lessonContent"
-
+            "lessonContainer"
         );
 
 
     if(!container){
 
-        console.error(
-
-            "lessonContent tidak ditemukan."
-
-        );
-
         return;
 
     }
 
 
     // ==========================
-    // DATA LESSON
+    // URL KEMBALI
     // ==========================
 
-    const title =
+    const backUrl =
 
-        lesson.title ||
+        `course.html?id=${encodeURIComponent(
 
-        "Materi Lesson";
+            course.courseId
 
-
-    const duration =
-
-        lesson.duration ||
-
-        "";
-
-
-    const githubUrl =
-
-        lesson.githubUrl;
+        )}`;
 
 
     // ==========================
-    // JUDUL HALAMAN
+    // INDEX LESSON AKTIF
     // ==========================
 
-    document.title =
+    const activeIndex =
 
-        title +
+        module.lessons.findIndex(
 
-        " | OLAH-DATA";
+            function(lesson){
+
+                return (
+
+                    String(
+                        lesson.lessonId
+                    )
+
+                    ===
+
+                    String(
+                        activeLesson.lessonId
+                    )
+
+                );
+
+            }
+
+        );
 
 
     // ==========================
-    // TAMPILKAN MATERI
+    // LESSON SEBELUMNYA
     // ==========================
 
-    container.className =
+    const previousLesson =
 
-        "lesson-view";
+        activeIndex > 0
 
+        ? module.lessons[
+            activeIndex - 1
+        ]
+
+        : null;
+
+
+    // ==========================
+    // LESSON BERIKUTNYA
+    // ==========================
+
+    const nextLesson =
+
+        activeIndex <
+
+        module.lessons.length - 1
+
+        ? module.lessons[
+            activeIndex + 1
+        ]
+
+        : null;
+
+
+    // ==========================
+    // RENDER
+    // ==========================
 
     container.innerHTML = `
 
-        <article class="lesson-article">
+
+        <!-- HEADER -->
+
+        <header class="lesson-topbar">
 
 
-            <!-- ================= -->
-            <!-- HEADER LESSON -->
-            <!-- ================= -->
+            <a
 
-            <div class="lesson-top">
+                href="${backUrl}"
+
+                class="back-course-btn"
+
+            >
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+                Kembali ke Course
+
+            </a>
 
 
-                <div>
+            <div class="lesson-navigation">
 
 
-                    <span class="lesson-label">
+                ${
 
-                        <i
-                            class="fa-solid fa-book-open"
-                        ></i>
+                    previousLesson
 
-                        Materi Pelatihan
+                    ?
+
+                    `
+
+                    <a
+
+                        href="${createLessonUrl(
+
+                            course.courseId,
+
+                            module.moduleId,
+
+                            previousLesson.lessonId
+
+                        )}"
+
+                        class="nav-lesson-btn"
+
+                    >
+
+                        <i class="fa-solid fa-chevron-left"></i>
+
+                        Sebelumnya
+
+                    </a>
+
+                    `
+
+                    :
+
+                    `
+
+                    <button
+
+                        class="nav-lesson-btn"
+
+                        disabled
+
+                    >
+
+                        <i class="fa-solid fa-chevron-left"></i>
+
+                        Sebelumnya
+
+                    </button>
+
+                    `
+
+                }
+
+
+                ${
+
+                    nextLesson
+
+                    ?
+
+                    `
+
+                    <a
+
+                        href="${createLessonUrl(
+
+                            course.courseId,
+
+                            module.moduleId,
+
+                            nextLesson.lessonId
+
+                        )}"
+
+                        class="nav-lesson-btn"
+
+                    >
+
+                        Selanjutnya
+
+                        <i class="fa-solid fa-chevron-right"></i>
+
+                    </a>
+
+                    `
+
+                    :
+
+                    `
+
+                    <button
+
+                        class="nav-lesson-btn"
+
+                        disabled
+
+                    >
+
+                        Selanjutnya
+
+                        <i class="fa-solid fa-chevron-right"></i>
+
+                    </button>
+
+                    `
+
+                }
+
+
+            </div>
+
+
+        </header>
+
+
+        <!-- LAYOUT -->
+
+        <main class="lesson-layout">
+
+
+            <!-- MATERI -->
+
+            <section class="lesson-main">
+
+
+                <div class="lesson-heading">
+
+
+                    <span class="module-label">
+
+                        ${module.title}
 
                     </span>
 
 
-                    <h1 class="lesson-title">
+                    <h1>
 
-                        ${escapeHTML(
-                            title
-                        )}
+                        ${activeLesson.title}
 
                     </h1>
 
 
+                    <p>
+
+                        <i class="fa-regular fa-clock"></i>
+
+                        ${
+
+                            activeLesson.duration
+
+                            ||
+
+                            "Durasi tidak tersedia"
+
+                        }
+
+                    </p>
+
+
+                </div>
+
+
+                <div class="lesson-frame-wrapper">
+
+
+                    <iframe
+
+                        class="lesson-frame"
+
+                        src="${activeLesson.githubUrl}"
+
+                        title="${activeLesson.title}"
+
+                        loading="lazy"
+
+                        allowfullscreen
+
+                    ></iframe>
+
+
+                </div>
+
+
+            </section>
+
+
+            <!-- SIDEBAR LESSON -->
+
+            <aside class="lesson-sidebar">
+
+
+                <div class="lesson-sidebar-header">
+
+
+                    <span>
+
+                        Module
+
+                    </span>
+
+
+                    <h2>
+
+                        ${module.title}
+
+                    </h2>
+
+
+                    <p>
+
+                        ${module.lessons.length}
+
+                        Lesson
+
+                    </p>
+
+
+                </div>
+
+
+                <div class="lesson-sidebar-list">
+
+
+                    ${renderModuleLessons(
+
+                        course.courseId,
+
+                        module,
+
+                        activeLesson.lessonId
+
+                    )}
+
+
+                </div>
+
+
+            </aside>
+
+
+        </main>
+
+
+    `;
+
+}
+
+// ======================================
+// BUAT URL LESSON
+// ======================================
+
+function createLessonUrl(
+
+    courseId,
+
+    moduleId,
+
+    lessonId
+
+){
+
+    return (
+
+        `lesson.html?courseId=${
+
+            encodeURIComponent(
+                courseId
+            )
+
+        }&moduleId=${
+
+            encodeURIComponent(
+                moduleId
+            )
+
+        }&lessonId=${
+
+            encodeURIComponent(
+                lessonId
+            )
+
+        }`
+
+    );
+
+}
+
+
+// ======================================
+// RENDER LESSON MODULE
+// ======================================
+
+function renderModuleLessons(
+
+    courseId,
+
+    module,
+
+    activeLessonId
+
+){
+
+    return module.lessons.map(
+
+        function(
+
+            lesson,
+
+            index
+
+        ){
+
+
+            const isActive =
+
+                String(
+                    lesson.lessonId
+                )
+
+                ===
+
+                String(
+                    activeLessonId
+                );
+
+
+            return `
+
+
+                <a
+
+                    href="${createLessonUrl(
+
+                        courseId,
+
+                        module.moduleId,
+
+                        lesson.lessonId
+
+                    )}"
+
+                    class="module-lesson-item
+
                     ${
 
-                        duration
+                        isActive
 
                         ?
 
-                        `
-
-                        <div class="lesson-meta">
-
-                            <i
-                                class="fa-regular fa-clock"
-                            ></i>
-
-                            <span>
-
-                                ${escapeHTML(
-                                    duration
-                                )}
-
-                            </span>
-
-                        </div>
-
-                        `
+                        "active"
 
                         :
 
                         ""
 
-                    }
-
-
-                </div>
-
-
-                <!-- BUKA TAB BARU -->
-
-                <a
-
-                    href="${escapeAttribute(
-                        githubUrl
-                    )}"
-
-                    target="_blank"
-
-                    rel="noopener"
-
-                    class="open-external"
+                    }"
 
                 >
 
+
+                    <span class="module-lesson-number">
+
+                        ${index + 1}
+
+                    </span>
+
+
+                    <span class="module-lesson-info">
+
+
+                        <strong>
+
+                            ${lesson.title}
+
+                        </strong>
+
+
+                        <small>
+
+                            ${
+
+                                lesson.duration
+
+                                ||
+
+                                ""
+
+                            }
+
+                        </small>
+
+
+                    </span>
+
+
                     <i
-                        class="fa-solid fa-arrow-up-right-from-square"
+
+                        class="fa-solid
+
+                        ${
+
+                            isActive
+
+                            ?
+
+                            "fa-play"
+
+                            :
+
+                            "fa-chevron-right"
+
+                        }"
+
                     ></i>
 
-                    Buka Penuh
 
                 </a>
 
 
-            </div>
-
-
-            <!-- ================= -->
-            <!-- IFRAME -->
-            <!-- ================= -->
-
-            <div class="lesson-frame-wrapper">
-
-
-                <!-- Loading iframe -->
-
-                <div
-                    class="iframe-loading"
-                    id="iframeLoading"
-                >
-
-                    <i
-                        class="fa-solid fa-spinner"
-                    ></i>
-
-                    <p>
-
-                        Memuat materi...
-
-                    </p>
-
-                </div>
-
-
-                <!-- Website GitHub Pages -->
-
-                <iframe
-
-                    id="lessonFrame"
-
-                    class="lesson-frame"
-
-                    src="${escapeAttribute(
-                        githubUrl
-                    )}"
-
-                    title="${escapeAttribute(
-                        title
-                    )}"
-
-                    loading="eager"
-
-                    allowfullscreen
-
-                ></iframe>
-
-
-            </div>
-
-
-        </article>
-
-    `;
-
-
-    // ==========================
-    // LOADING IFRAME
-    // ==========================
-
-    const frame =
-
-        document.getElementById(
-
-            "lessonFrame"
-
-        );
-
-
-    const loading =
-
-        document.getElementById(
-
-            "iframeLoading"
-
-        );
-
-
-    if(
-
-        !frame ||
-
-        !loading
-
-    ){
-
-        return;
-
-    }
-
-
-    // Sembunyikan loading
-    // setelah iframe selesai dimuat
-
-    frame.addEventListener(
-
-        "load",
-
-        function(){
-
-            loading.classList.add(
-
-                "hidden"
-
-            );
+            `;
 
         }
 
-    );
-
-
-    // Jika terlalu lama,
-    // loading tetap disembunyikan
-
-    setTimeout(
-
-        function(){
-
-            loading.classList.add(
-
-                "hidden"
-
-            );
-
-        },
-
-        10000
-
-    );
+    ).join("");
 
 }
 
-
 // ======================================
-// TAMPILKAN ERROR
+// ERROR
 // ======================================
 
 function showLessonError(message){
 
     const container =
-
         document.getElementById(
-
-            "lessonContent"
-
+            "lessonContainer"
         );
 
 
@@ -547,304 +835,40 @@ function showLessonError(message){
     }
 
 
-    container.className =
-
-        "lesson-error";
-
-
     container.innerHTML = `
 
-        <div class="lesson-error-icon">
 
-            ⚠️
-
-        </div>
+        <section class="lesson-error">
 
 
-        <h2>
+            <h2>
 
-            Gagal Memuat Materi
+                Gagal memuat materi
 
-        </h2>
-
-
-        <p>
-
-            ${escapeHTML(
-                message
-            )}
-
-        </p>
+            </h2>
 
 
-        <a
+            <p>
 
-            href="my-courses.html"
+                ${message}
 
-            class="back-button"
+            </p>
 
-        >
 
-            <i
-                class="fa-solid fa-arrow-left"
-            ></i>
+            <a
 
-            Kembali ke My Courses
+                href="dashboard.html"
 
-        </a>
+            >
+
+                Kembali ke Dashboard
+
+            </a>
+
+
+        </section>
+
 
     `;
-
-}
-
-
-// ======================================
-// LOGOUT
-// ======================================
-
-function setupLogout(){
-
-    const logoutBtn =
-
-        document.getElementById(
-
-            "logoutBtn"
-
-        );
-
-
-    if(!logoutBtn){
-
-        return;
-
-    }
-
-
-    logoutBtn.addEventListener(
-
-        "click",
-
-        function(e){
-
-            e.preventDefault();
-
-
-            const confirmLogout =
-
-                confirm(
-
-                    "Yakin ingin keluar dari akun?"
-
-                );
-
-
-            if(!confirmLogout){
-
-                return;
-
-            }
-
-
-            // Hapus data login
-
-            localStorage.removeItem(
-
-                "user"
-
-            );
-
-
-            // Kembali ke login
-
-            window.location.href =
-
-                "login.html";
-
-        }
-
-    );
-
-}
-
-
-// ======================================
-// MOBILE MENU
-// ======================================
-
-function setupMobileMenu(){
-
-    const menuBtn =
-
-        document.getElementById(
-
-            "mobileMenuBtn"
-
-        );
-
-
-    const sidebar =
-
-        document.getElementById(
-
-            "sidebar"
-
-        );
-
-
-    const overlay =
-
-        document.getElementById(
-
-            "mobileOverlay"
-
-        );
-
-
-    if(
-
-        !menuBtn ||
-
-        !sidebar ||
-
-        !overlay
-
-    ){
-
-        return;
-
-    }
-
-
-    // Buka / tutup sidebar
-
-    menuBtn.addEventListener(
-
-        "click",
-
-        function(){
-
-            sidebar.classList.toggle(
-
-                "active"
-
-            );
-
-
-            overlay.classList.toggle(
-
-                "active"
-
-            );
-
-        }
-
-    );
-
-
-    // Tutup sidebar
-    // saat overlay diklik
-
-    overlay.addEventListener(
-
-        "click",
-
-        function(){
-
-            sidebar.classList.remove(
-
-                "active"
-
-            );
-
-
-            overlay.classList.remove(
-
-                "active"
-
-            );
-
-        }
-
-    );
-
-}
-
-
-// ======================================
-// ESCAPE HTML
-// ======================================
-
-function escapeHTML(value){
-
-    const div =
-
-        document.createElement(
-
-            "div"
-
-        );
-
-
-    div.textContent =
-
-        value || "";
-
-
-    return div.innerHTML;
-
-}
-
-
-// ======================================
-// ESCAPE ATTRIBUTE
-// ======================================
-
-function escapeAttribute(value){
-
-    return String(
-
-        value || ""
-
-    )
-
-    .replaceAll(
-
-        "&",
-
-        "&amp;"
-
-    )
-
-    .replaceAll(
-
-        "'",
-
-        "&#39;"
-
-    )
-
-    .replaceAll(
-
-        '"',
-
-        "&quot;"
-
-    )
-
-    .replaceAll(
-
-        "<",
-
-        "&lt;"
-
-    )
-
-    .replaceAll(
-
-        ">",
-
-        "&gt;"
-
-    );
 
 }
