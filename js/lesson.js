@@ -118,10 +118,27 @@ if(
 // AMBIL DATA COURSE
 // ==========================
 
-const result =
-    await getCourseDetail(
-        courseId
+let result;
+
+try{
+
+    result =
+        await getCourseDetail(
+            courseId
+        );
+
+}catch(error){
+
+    showLessonError(
+
+        "Terjadi kesalahan saat menghubungi server: " +
+        error.message
+
     );
+
+    return;
+
+}
 
 
 // ==========================
@@ -146,9 +163,11 @@ if(!result.success){
 // ==========================
 // CARI MODULE
 // ==========================
+// NOTE: struktur response API => { success, course: { modules: [...] } }
+// jadi modules diakses lewat result.course.modules, BUKAN result.modules
 
 const selectedModule =
-    result.modules.find(
+    result.course.modules.find(
 
         function(module){
 
@@ -306,7 +325,7 @@ activeLesson
 
 const container =
     document.getElementById(
-        "lessonContainer"
+        "lessonContent"
     );
 
 
@@ -873,7 +892,7 @@ function showLessonError(message){
 
 const container =
     document.getElementById(
-        "lessonContainer"
+        "lessonContent"
     );
 
 
