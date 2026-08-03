@@ -63,7 +63,7 @@ async function initLesson(){
 
 
     // ==========================
-    // VALIDASI
+    // VALIDASI PARAMETER
     // ==========================
 
     if(
@@ -96,14 +96,16 @@ async function initLesson(){
 
 
     // ==========================
-    // REQUEST GAGAL
+    // CEK HASIL API
     // ==========================
 
     if(!result.success){
 
         showLessonError(
 
-            result.message
+            result.message ||
+
+            "Gagal mengambil data course."
 
         );
 
@@ -257,6 +259,7 @@ async function initLesson(){
 
 }
 
+
 // ======================================
 // RENDER LESSON PAGE
 // ======================================
@@ -283,46 +286,22 @@ function renderLessonPage(
 
     }
 
-// ==========================
-// SET TOMBOL KEMBALI
-// ==========================
 
-const backToCourse =
-    document.getElementById(
-        "backToCourse"
-    );
-
-
-if(
-
-    backToCourse &&
-
-    courseId
-
-){
-
-    backToCourse.href =
-
-        `course.html?id=${
-
-            encodeURIComponent(
-                courseId
-            )
-
-        }`;
-
-}
     // ==========================
-    // URL KEMBALI
+    // URL KEMBALI KE COURSE
     // ==========================
 
     const backUrl =
 
-        `course.html?id=${encodeURIComponent(
+        `course.html?id=${
 
-            course.courseId
+            encodeURIComponent(
 
-        )}`;
+                course.courseId
+
+            )
+
+        }`;
 
 
     // ==========================
@@ -362,11 +341,15 @@ if(
 
         activeIndex > 0
 
-        ? module.lessons[
+        ?
+
+        module.lessons[
             activeIndex - 1
         ]
 
-        : null;
+        :
+
+        null;
 
 
     // ==========================
@@ -379,15 +362,19 @@ if(
 
         module.lessons.length - 1
 
-        ? module.lessons[
+        ?
+
+        module.lessons[
             activeIndex + 1
         ]
 
-        : null;
+        :
+
+        null;
 
 
     // ==========================
-    // RENDER
+    // RENDER HALAMAN
     // ==========================
 
     container.innerHTML = `
@@ -603,7 +590,7 @@ if(
             </section>
 
 
-            <!-- SIDEBAR LESSON -->
+            <!-- SIDEBAR -->
 
             <aside class="lesson-sidebar">
 
@@ -664,6 +651,7 @@ if(
 
 }
 
+
 // ======================================
 // BUAT URL LESSON
 // ======================================
@@ -706,7 +694,7 @@ function createLessonUrl(
 
 
 // ======================================
-// RENDER LESSON MODULE
+// RENDER LIST LESSON
 // ======================================
 
 function renderModuleLessons(
@@ -844,6 +832,7 @@ function renderModuleLessons(
 
 }
 
+
 // ======================================
 // ERROR
 // ======================================
@@ -885,11 +874,11 @@ function showLessonError(message){
 
             <a
 
-                href="dashboard.html"
+                href="my-courses.html"
 
             >
 
-                Kembali ke Dashboard
+                Kembali ke My Courses
 
             </a>
 
