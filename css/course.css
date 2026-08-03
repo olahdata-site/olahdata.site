@@ -452,3 +452,46 @@ MOBILE
     }
 
 }
+
+/* ======================================
+   MODULE LINK
+====================================== */
+
+.module-link{
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    text-decoration: none;
+
+    color: inherit;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+
+}
+
+
+.module-link:hover{
+
+    background:
+
+        rgba(
+            47,
+            99,
+            191,
+            0.05
+        );
+
+}
+
+
+.module-link h3{
+
+    color: inherit;
+
+}
